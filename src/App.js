@@ -6,29 +6,30 @@ import { useState } from 'react';
 
 import React from 'react'
 
-
 export const App = () => {
-  var [count,setCount] = useState(0);
-  const handleAdd = ()=>{
-    setCount(count++)
-  }
-  const handleSub = ()=>{
-    setCount(count--)
+  const [tasks,setTasks] = useState([
+    {id:5271,name:'Record react lectures',completed:true},
+    {id:7825,name:'Edit react lectures',completed:false},
+    {id:8391,name:'Watch lectures',completed:false},
 
+  ])
+  const [show,setShow] = useState(true);
+  function handleDelete(id){
+    setTasks(tasks.filter(task => task.id !== id));
   }
-  const handleReset = () =>{
-    setCount(0)
-  }
-
   return (
     <div className="App">
-      <div className="box">
-        <p>{count}</p>
-        <button onClick={handleAdd} className='add'>Add</button>
-        <button onClick={handleSub} className='sub'>Sub</button>
-        <button onClick={handleReset} className='reset'>Reset</button>
-
-      </div>
+      <h1>Task List</h1>
+      <ul>
+        <button className = 'trigger' onClick={() => setShow(!show)}>Toogle</button>
+        { show && tasks.map(({id,name,completed})=>(
+          <li key={id} className={completed ? "completed":"incomplete"}>
+            <span>{id} - {name}</span>
+          <button onClick = {() => handleDelete(id)}className='delete'>Delete</button>
+          </li>
+        )) }
+      </ul>
     </div>
   )
 }
+
